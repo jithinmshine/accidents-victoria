@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Accidents in Victoria</title>
+	<meta charset="utf-8">
+	<!-- CSS Files -->
+	<!--Leaflet CSS -->
+	<link rel="stylesheet" href="Styles/leaflet.css"/>
+
+	<!-- Bootstrap minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+
+	<!--Script Files-->
+	<!--Script Files for d3-->
+    <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+    <script type="text/javascript" src="script/d3.v4.min.js"></script>
+    <!--Script Files for leaflet-->
+    <script type="text/javascript" src="script/leaflet.js"></script>
+	<!--Script Files for jQuery library -->
+	<script type="text/javascript" src="script/jquery.min.js"></script>
+	<!--Script Files for Bootstrap JavaScript -->
+	<script type="text/javascript" src="script/bootstrap.min.js"></script>
+	<script type="text/javascript" src="script/d3-tip.js"></script>
+
+
+	<!--Custom CSS files-->
+	<link rel="stylesheet" href="Styles/Home.css"/>
+
+</head>
+<body style="background-color: #f6f6f6;">
+	<div class="row" style="width: 100%; height: 600px; background-image: url('Image/vic_road.png'); background-size: 100%; text-align: center;">
+        <div style="display: inline-block;margin-top: 300px;font-size: 56px; width: 100%; font-weight: bold; color: whitesmoke;">Accidents in Victoria</div>
+        <h5 style="display: inline-block;margin-top: 10px;font-size: 40px; font-weight: bold; color: whitesmoke;">Do you know how many accidents happen in Victoria?</h5>
+    </div>
+    
+	<div class="row" style="background-color: brown; height: 90px;">
+			<h1 style="color: white;padding-left: 2%">Accident Trend in Victoria 2006-2018</h1>
+    </div>
+    <div class="row" style="width:100%; padding-left: 5%">
+		
+<!------------------------------------------------- The trend line graph ------------------------------------------------------------------->		
+            <div id="firstGraph" class="col-sm-7">
+                <svg></svg>
+            </div>
+            <div class="col-sm-4" style="padding-top: 10%">
+                <p>Road accidents data is collected by Victorian government to analyze the crash statistics and develop counter measures to decrease the road accidents. VicRoads provides crash statistics to organizations, researchers and the general public to help with education, research and the development of road safety programs and initiatives.<br><br>
+                Victoria started the analysis of data from around 2013. And as part of the open data movement, the organization started publishing the datasets from 2014. After they started analyzing the data and implementing the counter measures, we can clearly see a drop in the number of accidents in Victoria from 2014</p>
+            </div>
+            
+	</div>
+
+<!--------------------------------------------------------- The Map section     ----------------------------------------------------------->
+	<div class="row" style="background-color: brown; height: 90px;">
+			<h1 style="color: white;padding-left: 2%">Explore the data</h1>
+	</div>
+	
+	
+	<div class="row" style="margin-top: 10px;">
+
+		<div class="col-sm-8">
+            <!----------------- The Map SVG ----------------------------------->
+			<div id="mapBox" class = "row" style="width: 100%; height: 600px">
+			</div>
+            <div class='row'>
+                
+                    <button onclick="resetMapToOrginal()" id="resetBtn" title="click to reset all the filters">Reset</button>
+                    <p style="display: inline">Click reset to clear all the filters</p>
+                                
+			</div>
+		</div>
+		<div class="col-sm-4">
+                
+                <!----------------------------------------------- Year DIV -------------------------------------------------------------------->
+                <h5 class="subTitle">Select Year</h5>
+				<div class="row" id="YearSearchDiv">
+               
+				<button onclick="yearDropDownBtnClicked()" id="yearDisBtn" class="dropbtn" title="choose year filter">All Year</button>
+  				<div id="yearDropdown" class="dropdown-content">
+    				<a onclick="selectedYear(0)">All Year</a>
+    				<a onclick="selectedYear(2006)">2006</a>
+    				<a onclick="selectedYear(2007)">2007</a>
+    				<a onclick="selectedYear(2008)">2008</a>
+    				<a onclick="selectedYear(2009)">2009</a>
+    				<a onclick="selectedYear(2010)">2010</a>
+    				<a onclick="selectedYear(2011)">2011</a>
+    				<a onclick="selectedYear(2012)">2012</a>
+    				<a onclick="selectedYear(2013)">2013</a>
+    				<a onclick="selectedYear(2014)">2014</a>
+    				<a onclick="selectedYear(2015)">2015</a>
+    				<a onclick="selectedYear(2016)">2016</a>
+    				<a onclick="selectedYear(2017)">2017</a>
+                    <a onclick="selectedYear(2018)">2018</a>
+  				</div>
+			</div>
+			
+            <!-------------------------------------------- Speed zone DIV ----------------------------------------------------------------------->
+			<div class="row" id="speedzone">
+            <h5 class="subTitle">Select Speed Zone</h5>
+			
+				<div class="row">
+					<button id="speed_30" class="speedBtn" onclick="speedZoneSelectedWithVal(30)" title="click to filter on speed zone">30</button>
+				</div>
+				<div class="row">
+					<button id="speed_40" class="speedBtn" onclick="speedZoneSelectedWithVal(40)" title="click to filter on speed zone">40</button>
+				</div>
+				<div class="row">
+					<button id="speed_50" class="speedBtn" onclick="speedZoneSelectedWithVal(50)" title="click to filter on speed zone">50</button>
+				</div>
+				<div class="row">
+					<button id="speed_60" class="speedBtn" onclick="speedZoneSelectedWithVal(60)" title="click to filter on speed zone">60</button>
+				</div>
+				<div class="row">
+					<button id="speed_70" class="speedBtn" onclick="speedZoneSelectedWithVal(70)" title="click to filter on speed zone">70</button>
+				</div>
+				<div class="row">
+					<button id="speed_75" class="speedBtn" onclick="speedZoneSelectedWithVal(75)" title="click to filter on speed zone">75</button>
+				</div>
+				<div class="row">
+					<button id="speed_80" class="speedBtn" onclick="speedZoneSelectedWithVal(80)" title="click to filter on speed zone">80</button>
+				</div>
+				<div class="row">
+					<button id="speed_90" class="speedBtn" onclick="speedZoneSelectedWithVal(90)" title="click to filter on speed zone">90</button>
+				</div>
+				<div class="row">
+					<button id="speed_100" class="speedBtn" onclick="speedZoneSelectedWithVal(100)" title="click to filter on speed zone">100</button>
+				</div>
+				<div class="row">
+					<button id="speed_110" class="speedBtn" onclick="speedZoneSelectedWithVal(110)" title="click to filter on speed zone">110</button>
+				</div>
+			</div>
+            
+            <!--------------------------------- Severity DIV ------------------------------------------------------------------>
+            <div class="row" id="severity">
+                <h5 class="subTitle">Select Severity</h5>
+                
+					<button id="severity_1" class="severityBtn" onclick="severitySelectedWithVal(1)" title="click to filter by Severity">Fatal</button>
+                    <button id="severity_2" class="severityBtn" onclick="severitySelectedWithVal(2)" title="click to filter by Severity">Serious Injury</button>
+                    
+				
+            </div>
+            
+			
+		</div>
+        
+        
+        
+	</div>
+    
+    <!----------------------------- Weather conditions DIV------------------------------------------------------>
+    <div class="row" style="padding-top: 1%;padding-left: 2%; padding-bottom: 1%">
+			<h5 class="subTitle">Select Weather Condition</h5>
+			<div class="col-sm- 7">
+				<button class="atmCondBtn" id="Clear" onclick="atmTypeSelected('Clear')" title="clear weather"></button>
+				<button class="atmCondBtn" id="Raining" onclick="atmTypeSelected('Raining')" title="rainy weather"></button>
+				<button class="atmCondBtn" id="wind" onclick="atmTypeSelected('Strong winds')" title="windy weather"></button>
+				<button class="atmCondBtn" id="Snowing" onclick="atmTypeSelected('Snowing')" title="snowy weather"></button>
+				<button class="atmCondBtn" id="Low" onclick="atmTypeSelected('Low Vision')" title="smoke, dust, fog weather"></button>
+				
+			</div>
+     </div>
+
+    <!----------------------------------------------- People involved by age group  DONUT chart----------------------------------------------------------------------------->
+    
+    <div class="row" style="background-color: brown; height: 90px;">
+			<h1 style="color: white;padding-left: 2%;">See people involved in accidents by age group</h1>
+	</div>
+    <div class="row">
+        <div id="piechart" style="padding-left: 10%" class="col-sm-6"></div>
+        <div class="col-sm-4" style="display:inline-block;text-align: center;padding-top: 10%"> <p>We can see from the chart that the people in the age group 30-39 are most involved in accidents. This makes sense as most number of people rushing on road are the working class. This rush often results in accidents. So if you are in the habit of rushing to work everyday, please be careful and let others also beware of the problem.</p></div>
+    </div>
+    
+    
+    
+    <!-- Footer -->
+    <footer  style="background-color: brown; height: 50px; align-content: center;padding: 1%">
+
+      <!-- Copyright -->
+      <div style="color: aliceblue; text-align: center">© 2018 Copyright
+      </div>
+      <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+    
+    
+    
+	<!--Custom Files-->
+	<!--Script Files-->
+	<script type="text/javascript" src="script/Home.js"></script>
+</body>
+</html>
